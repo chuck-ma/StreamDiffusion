@@ -425,12 +425,13 @@ class StreamDiffusionWrapper:
         """
         if self.sdxl:
             try:  # Load from local directory
+                print("load fp16")
                 pipe: StableDiffusionXLPipeline = StableDiffusionXLPipeline.from_pretrained(
                     model_id_or_path,
                     use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
-                    scheduler = EDMDPMSolverMultistepScheduler()
+                    #scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
 
             except ValueError:  # Load from huggingface
@@ -439,7 +440,7 @@ class StreamDiffusionWrapper:
                     use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
-                    scheduler = EDMDPMSolverMultistepScheduler()
+                    #scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
             except Exception:  # No model found
                 traceback.print_exc()
