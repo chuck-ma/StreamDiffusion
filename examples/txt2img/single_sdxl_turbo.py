@@ -19,9 +19,9 @@ def main(
     model_id_or_path: str = "stabilityai/sdxl-turbo",
     lora_dict: Optional[Dict[str, float]] = None,
     prompt: str = "A retro robot portrait with a thick glasses, smiling, blue background",
-    width: int = 512,
+    width: int = 1024,
     height: int = 512,
-    acceleration: Literal["none", "xformers", "tensorrt"] = "none",
+    acceleration: Literal["none", "xformers", "tensorrt"] = "tensorrt",
     use_denoising_batch: bool = True,
     seed: int = 11,
 ):
