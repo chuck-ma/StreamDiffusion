@@ -423,6 +423,7 @@ class StreamDiffusionWrapper:
         StreamDiffusion
             The loaded model.
         """
+        print("isSdXl=", self.sdxl)
         if self.sdxl:
             try:  # Load from local directory
                 print("load fp16")
