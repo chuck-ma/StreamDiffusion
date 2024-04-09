@@ -21,7 +21,7 @@ def main(
     prompt: str = "A retro robot portrait with a thick glasses, smiling, blue background",
     width: int = 1024,
     height: int = 512,
-    acceleration: Literal["none", "xformers", "tensorrt"] = "tensorrt",
+    acceleration: Literal["none", "xformers", "tensorrt"] = "xformers",
     use_denoising_batch: bool = True,
     seed: int = 11,
 ):
@@ -69,6 +69,11 @@ def main(
         cfg_type = "none",
         seed=seed,
     )
+    import time
+    start_time = time.time()
+    print("start painting...")
+
+
     
     stream.prepare(
         prompt=prompt,
@@ -79,6 +84,14 @@ def main(
 
     output_image = stream()
     output_image.save(output)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Code execution time: {elapsed_time} seconds")
+
+
+
+
+
 
 
 if __name__ == "__main__":
