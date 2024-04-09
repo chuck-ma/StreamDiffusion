@@ -11,6 +11,7 @@ from PIL import Image
 
 from streamdiffusion import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image
+from diffusers import EDMDPMSolverMultistepScheduler
 
 
 torch.set_grad_enabled(False)
@@ -429,6 +430,7 @@ class StreamDiffusionWrapper:
                     use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
+                    scheduler = EDMDPMSolverMultistepScheduler()
                 ).to(device=self.device, dtype=self.dtype)
 
             except ValueError:  # Load from huggingface
@@ -437,6 +439,7 @@ class StreamDiffusionWrapper:
                     use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
+                    scheduler = EDMDPMSolverMultistepScheduler()
                 ).to(device=self.device, dtype=self.dtype)
             except Exception:  # No model found
                 traceback.print_exc()
