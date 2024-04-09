@@ -117,6 +117,7 @@ class StreamDiffusionWrapper:
             Whether to use safety checker or not, by default False.
         """
         self.sd_turbo = "turbo" in model_id_or_path
+        print("sd_turbo", self.sd_turbo)
         
         if sdxl is None:
             self.sdxl = "xl" in model_id_or_path
