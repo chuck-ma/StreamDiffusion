@@ -52,7 +52,7 @@ def main(
     seed : int, optional
         The seed, by default 2. if -1, use random seed.
     """
-    model_id_or_path = "stabilityai/sdxl-turbo"
+    # model_id_or_path = "stabilityai/sdxl-turbo"
 
     stream = StreamDiffusionWrapper(
         model_id_or_path=model_id_or_path,
