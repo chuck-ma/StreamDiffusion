@@ -22,7 +22,7 @@ def main(
     width: int = 1024,
     height: int = 512,
     acceleration: Literal["none", "xformers", "tensorrt"] = "xformers",
-    use_denoising_batch: bool = True,
+    use_denoising_batch: bool = False,
     seed: int = 11,
 ):
     
