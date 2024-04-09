@@ -16,7 +16,7 @@ default_negative_prompt = "black and white, blurry, low resolution, pixelated,  
 
 def main(
     output: str = os.path.join(CURRENT_DIR, "..", "..", "images", "outputs", "output.png"),
-    model_id_or_path: str = "playgroundai/playground-v2.5-1024px-aesthetic",
+    model_id_or_path: str = "RunDiffusion/Juggernaut-XL-Lightning",
     lora_dict: Optional[Dict[str, float]] = None,
     prompt: str = "A retro robot portrait with a thick glasses, smiling, blue background",
     width: int = 1024,
@@ -78,8 +78,8 @@ def main(
     stream.prepare(
         prompt=prompt,
         negative_prompt=default_negative_prompt,
-        num_inference_steps= 25,
-        guidance_scale=3.0,
+        num_inference_steps= 4,
+        guidance_scale=2.0,
     )
 
     output_image = stream()
