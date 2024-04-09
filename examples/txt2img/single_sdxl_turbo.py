@@ -68,7 +68,8 @@ def main(
         use_denoising_batch=use_denoising_batch,
         cfg_type = "none",
         seed=seed,
-        sdxl=True
+        sdxl=True,
+        do_add_noise=False,
     )
     import time
     start_time = time.time()
