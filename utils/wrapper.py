@@ -429,7 +429,7 @@ class StreamDiffusionWrapper:
                 print("load fp16")
                 pipe: StableDiffusionXLPipeline = StableDiffusionXLPipeline.from_pretrained(
                     model_id_or_path,
-                    use_safetensors=True,
+                    #use_safetensors=True,
                     torch_dtype=torch.float16,
                     #variant='fp16',
                     #scheduler = EDMDPMSolverMultistepScheduler(),
@@ -438,7 +438,7 @@ class StreamDiffusionWrapper:
             except ValueError:  # Load from huggingface
                 pipe: StableDiffusionXLPipeline = StableDiffusionXLPipeline.from_single_file(
                     model_id_or_path,
-                    use_safetensors=True,
+                    #use_safetensors=True,
                     torch_dtype=torch.float16,
                     #variant='fp16',
                     #scheduler = EDMDPMSolverMultistepScheduler(),
