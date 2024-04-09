@@ -433,7 +433,7 @@ class StreamDiffusionWrapper:
                     model_id_or_path,
                     #use_safetensors=True,
                     torch_dtype=torch.float16,
-                    #variant='fp16',
+                    variant='fp16',
                     #scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
 
@@ -442,7 +442,7 @@ class StreamDiffusionWrapper:
                     model_id_or_path,
                     #use_safetensors=True,
                     torch_dtype=torch.float16,
-                    #variant='fp16',
+                    variant='fp16',
                     #scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
             except Exception:  # No model found
