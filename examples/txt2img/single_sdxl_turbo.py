@@ -22,7 +22,7 @@ def main(
     width: int = 1024,
     height: int = 512,
     acceleration: Literal["none", "xformers", "tensorrt"] = "xformers",
-    use_denoising_batch: bool = False,
+    use_denoising_batch: bool = True,
     seed: int = 11,
 ):
     
@@ -52,6 +52,7 @@ def main(
     seed : int, optional
         The seed, by default 2. if -1, use random seed.
     """
+    model_id_or_path = "stabilityai/sdxl-turbo"
 
     stream = StreamDiffusionWrapper(
         model_id_or_path=model_id_or_path,
@@ -69,7 +70,7 @@ def main(
         cfg_type = "none",
         seed=seed,
         sdxl=True,
-        do_add_noise=False,
+        # do_add_noise=False,
     )
     import time
     start_time = time.time()
