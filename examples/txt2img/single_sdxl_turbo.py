@@ -70,7 +70,7 @@ def main(
         cfg_type="none",
         seed=seed,
         sdxl=True,
-        use_tiny_vae=False,
+        use_tiny_vae=True,
         # do_add_noise=False,
         guidance_scale=1.2,
     )
