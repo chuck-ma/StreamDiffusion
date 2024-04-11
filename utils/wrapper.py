@@ -48,7 +48,8 @@ class StreamDiffusionWrapper:
         seed: int = 2,
         use_safety_checker: bool = False,
         engine_dir: Optional[Union[str, Path]] = "engines",
-        sdxl: bool = None
+        sdxl: bool = None,
+        guidance_scale: float = 1.2,
     ):
         """
         Initializes the StreamDiffusionWrapper.
@@ -176,6 +177,7 @@ class StreamDiffusionWrapper:
             cfg_type=cfg_type,
             seed=seed,
             engine_dir=engine_dir,
+            guidance_scale=guidance_scale,
         )
 
         self.stream.unet.config.addition_embed_type = None
@@ -381,6 +383,7 @@ class StreamDiffusionWrapper:
         cfg_type: Literal["none", "full", "self", "initialize"] = "self",
         seed: int = 2,
         engine_dir: Optional[Union[str, Path]] = "engines",
+        guidance_scale: float = 1.2,
     ) -> StreamDiffusion:
         """
         Loads the model.
@@ -685,9 +688,7 @@ class StreamDiffusionWrapper:
             "",
             "",
             num_inference_steps=50,
-            guidance_scale=1.1
-            if stream.cfg_type in ["full", "self", "initialize"]
-            else 1.0,
+            guidance_scale=guidance_scale,
             generator=torch.manual_seed(seed),
             seed=seed,
         )

@@ -71,6 +71,7 @@ def main(
         sdxl=True,
         use_tiny_vae=False,
         # do_add_noise=False,
+        guidance_scale=3,
     )
     import time
     start_time = time.time()
@@ -80,7 +81,7 @@ def main(
         prompt=prompt,
         negative_prompt=default_negative_prompt,
         num_inference_steps=4,
-        guidance_scale=0,
+        guidance_scale=3,
     )
 
     output_image = stream()
