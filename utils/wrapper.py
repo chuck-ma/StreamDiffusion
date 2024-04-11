@@ -15,8 +15,8 @@ from streamdiffusion.image_utils import postprocess_image
 
 
 torch.set_grad_enabled(False)
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
+# torch.backends.cuda.matmul.allow_tf32 = True
+# torch.backends.cudnn.allow_tf32 = True
 
 
 class StreamDiffusionWrapper:
@@ -124,6 +124,8 @@ class StreamDiffusionWrapper:
             self.sdxl = "xl" in model_id_or_path
         else:
             self.sdxl = sdxl
+
+        print("sdxl", self.sdxl)
 
         self.default_tiny_vae = "madebyollin/taesdxl" if self.sdxl else "madebyollin/taesd"
 

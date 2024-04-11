@@ -69,6 +69,7 @@ def main(
         cfg_type="none",
         seed=seed,
         sdxl=True,
+        use_tiny_vae=False,
         # do_add_noise=False,
     )
     import time
