@@ -11,7 +11,7 @@ from PIL import Image
 
 from streamdiffusion import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image
-from diffusers import EDMDPMSolverMultistepScheduler
+# from diffusers import EDMDPMSolverMultistepScheduler
 
 
 torch.set_grad_enabled(False)
@@ -117,14 +117,14 @@ class StreamDiffusionWrapper:
             Whether to use safety checker or not, by default False.
         """
         self.sd_turbo = "turbo" in model_id_or_path
-        #self.sd_turbo = False
+        # self.sd_turbo = False
         print("sd_turbo", self.sd_turbo)
-        
+
         if sdxl is None:
             self.sdxl = "xl" in model_id_or_path
         else:
             self.sdxl = sdxl
-        
+
         self.default_tiny_vae = "madebyollin/taesdxl" if self.sdxl else "madebyollin/taesd"
 
         if mode == "txt2img":
@@ -175,7 +175,7 @@ class StreamDiffusionWrapper:
             seed=seed,
             engine_dir=engine_dir,
         )
-        
+
         self.stream.unet.config.addition_embed_type = None
 
         if device_ids is not None:
@@ -184,7 +184,8 @@ class StreamDiffusionWrapper:
             )
 
         if enable_similar_image_filter:
-            self.stream.enable_similar_image_filter(similar_image_filter_threshold, similar_image_filter_max_skip_frame)
+            self.stream.enable_similar_image_filter(
+                similar_image_filter_threshold, similar_image_filter_max_skip_frame)
 
     def prepare(
         self,
@@ -237,8 +238,8 @@ class StreamDiffusionWrapper:
         Union[Image.Image, List[Image.Image]]
             The generated image.
         """
-        if self.mode == "img2img":         
-            return self.img2img(image, prompt)            
+        if self.mode == "img2img":
+            return self.img2img(image, prompt)
         else:
             return self.txt2img(prompt)
 
@@ -265,7 +266,8 @@ class StreamDiffusionWrapper:
             image_tensor = self.stream.txt2img_sd_turbo(self.batch_size)
         else:
             image_tensor = self.stream.txt2img(self.frame_buffer_size)
-        image = self.postprocess_image(image_tensor, output_type=self.output_type)
+        image = self.postprocess_image(
+            image_tensor, output_type=self.output_type)
 
         if self.use_safety_checker:
             safety_checker_input = self.feature_extractor(
@@ -302,7 +304,8 @@ class StreamDiffusionWrapper:
             image = self.preprocess_image(image)
 
         image_tensor = self.stream(image)
-        image = self.postprocess_image(image_tensor, output_type=self.output_type)
+        image = self.postprocess_image(
+            image_tensor, output_type=self.output_type)
 
         if self.use_safety_checker:
             safety_checker_input = self.feature_extractor(
@@ -331,7 +334,8 @@ class StreamDiffusionWrapper:
             The preprocessed image.
         """
         if isinstance(image, str):
-            image = Image.open(image).convert("RGB").resize((self.width, self.height))
+            image = Image.open(image).convert(
+                "RGB").resize((self.width, self.height))
         if isinstance(image, Image.Image):
             image = image.convert("RGB").resize((self.width, self.height))
 
@@ -431,19 +435,19 @@ class StreamDiffusionWrapper:
                 print("load fp16")
                 pipe: StableDiffusionXLPipeline = StableDiffusionXLPipeline.from_pretrained(
                     model_id_or_path,
-                    #use_safetensors=True,
+                    # use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
-                    #scheduler = EDMDPMSolverMultistepScheduler(),
+                    # scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
 
             except ValueError:  # Load from huggingface
                 pipe: StableDiffusionXLPipeline = StableDiffusionXLPipeline.from_single_file(
                     model_id_or_path,
-                    #use_safetensors=True,
+                    # use_safetensors=True,
                     torch_dtype=torch.float16,
                     variant='fp16',
-                    #scheduler = EDMDPMSolverMultistepScheduler(),
+                    # scheduler = EDMDPMSolverMultistepScheduler(),
                 ).to(device=self.device, dtype=self.dtype)
             except Exception:  # No model found
                 traceback.print_exc()
@@ -463,7 +467,6 @@ class StreamDiffusionWrapper:
                 traceback.print_exc()
                 print("Model load has failed. Doesn't exist.")
                 exit()
-
 
         stream = StreamDiffusion(
             pipe=pipe,
@@ -499,9 +502,9 @@ class StreamDiffusionWrapper:
                 )
             else:
                 stream.vae = AutoencoderTiny.from_pretrained(self.default_tiny_vae).to(
-                    device=pipe.device, dtype=pipe.dtype            
+                    device=pipe.device, dtype=pipe.dtype
                 )
-                
+
         try:
             if acceleration == "xformers":
                 stream.pipe.enable_xformers_memory_efficient_attention()
@@ -591,7 +594,8 @@ class StreamDiffusionWrapper:
                     )
 
                 if not os.path.exists(vae_decoder_path):
-                    os.makedirs(os.path.dirname(vae_decoder_path), exist_ok=True)
+                    os.makedirs(os.path.dirname(
+                        vae_decoder_path), exist_ok=True)
                     stream.vae.forward = stream.vae.decode
                     vae_decoder_model = VAE(
                         device=stream.device,
@@ -615,8 +619,10 @@ class StreamDiffusionWrapper:
                     delattr(stream.vae, "forward")
 
                 if not os.path.exists(vae_encoder_path):
-                    os.makedirs(os.path.dirname(vae_encoder_path), exist_ok=True)
-                    vae_encoder = TorchVAEEncoder(stream.vae).to(torch.device("cuda"))
+                    os.makedirs(os.path.dirname(
+                        vae_encoder_path), exist_ok=True)
+                    vae_encoder = TorchVAEEncoder(
+                        stream.vae).to(torch.device("cuda"))
                     vae_encoder_model = VAEEncoder(
                         device=stream.device,
                         max_batch_size=self.batch_size
@@ -670,7 +676,7 @@ class StreamDiffusionWrapper:
             traceback.print_exc()
             print("Acceleration has failed. Falling back to normal mode.")
 
-        if seed < 0: # Random seed
+        if seed < 0:  # Random seed
             seed = np.random.randint(0, 1000000)
 
         stream.prepare(
