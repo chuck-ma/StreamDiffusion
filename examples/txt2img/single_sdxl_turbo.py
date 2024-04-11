@@ -17,7 +17,7 @@ default_negative_prompt = "black and white, blurry, low resolution, pixelated,  
 def main(
     output: str = os.path.join(
         CURRENT_DIR, "..", "..", "images", "outputs", "output.png"),
-    model_id_or_path: str = "stabilityai/sdxl-turbo",
+    model_id_or_path: str = "RunDiffusion/Juggernaut-XL-Lightning",
     lora_dict: Optional[Dict[str, float]] = None,
     prompt: str = "A woman wearing a hat poses for a picture, in the style of oshare kei, black, wide lens, shiny/ glossy, solapunk, dark silver, rim light",
     width: int = 1024,
@@ -80,7 +80,7 @@ def main(
         prompt=prompt,
         negative_prompt=default_negative_prompt,
         num_inference_steps=4,
-        guidance_scale=0.0,
+        guidance_scale=2.0,
     )
 
     output_image = stream()
