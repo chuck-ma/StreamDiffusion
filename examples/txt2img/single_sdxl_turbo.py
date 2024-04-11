@@ -82,7 +82,7 @@ def main(
         prompt=prompt,
         negative_prompt=default_negative_prompt,
         num_inference_steps=4,
-        guidance_scale=1.2,
+        guidance_scale=0.0,
     )
 
     output_image = stream()
