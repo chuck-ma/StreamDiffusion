@@ -1,3 +1,4 @@
+from utils.wrapper import StreamDiffusionWrapper
 import os
 import sys
 from typing import Literal, Dict, Optional
@@ -7,7 +8,6 @@ import fire
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from utils.wrapper import StreamDiffusionWrapper
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -15,17 +15,17 @@ default_negative_prompt = "black and white, blurry, low resolution, pixelated,  
 
 
 def main(
-    output: str = os.path.join(CURRENT_DIR, "..", "..", "images", "outputs", "output.png"),
+    output: str = os.path.join(
+        CURRENT_DIR, "..", "..", "images", "outputs", "output.png"),
     model_id_or_path: str = "stabilityai/sdxl-turbo",
     lora_dict: Optional[Dict[str, float]] = None,
     prompt: str = "A woman wearing a hat poses for a picture, in the style of oshare kei, black, wide lens, shiny/ glossy, solapunk, dark silver, rim light",
     width: int = 1024,
     height: int = 512,
-    acceleration: Literal["none", "xformers", "tensorrt"] = "xformers",
+    acceleration: Literal["none", "xformers", "tensorrt"] = "none",
     use_denoising_batch: bool = True,
     seed: int = 11,
 ):
-    
     """
     Process for generating images based on a prompt using a specified model.
 
@@ -67,7 +67,7 @@ def main(
         acceleration=acceleration,
         mode="txt2img",
         use_denoising_batch=use_denoising_batch,
-        cfg_type = "none",
+        cfg_type="none",
         seed=seed,
         sdxl=True,
         # do_add_noise=False,
@@ -76,12 +76,10 @@ def main(
     start_time = time.time()
     print("start painting...")
 
-
-    
     stream.prepare(
         prompt=prompt,
         negative_prompt=default_negative_prompt,
-        num_inference_steps= 4,
+        num_inference_steps=4,
         guidance_scale=0.0,
     )
 
@@ -90,11 +88,6 @@ def main(
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Code execution time: {elapsed_time} seconds")
-
-
-
-
-
 
 
 if __name__ == "__main__":
