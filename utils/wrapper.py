@@ -267,6 +267,7 @@ class StreamDiffusionWrapper:
             self.stream.update_prompt(prompt)
 
         if self.sd_turbo:
+            print("使用 turbo 方法进行文本到图像的转换")
             image_tensor = self.stream.txt2img_sd_turbo(self.batch_size)
         else:
             image_tensor = self.stream.txt2img(self.frame_buffer_size)
